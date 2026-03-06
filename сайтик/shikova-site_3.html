@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>SHIKOVA — AI-креатор</title>
+    <meta name="description" content="AI-креатор и промпт-инженер. Увеличу Вашу прибыль и узнаваемость с помощью уникальных AI-креативов.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        html { overflow-x: hidden; overscroll-behavior-x: none; }
+        body {
+            color: #1d1d1f; line-height: 1.5; -webkit-font-smoothing: antialiased; position: relative;
+            overflow-x: hidden; width: 100%; max-width: 100vw; overscroll-behavior-x: none;
+        }
+        .bg-fixed {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: url('https://i.postimg.cc/SKcGX4Jp/hf-20260219-092255-27a19863-9a39-4c4b-b1b1-c01588c99d5f.png');
+            background-size: cover; background-position: center;
+        }
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: rgba(255,255,255,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 60px 0; }
+        h2 { font-size: 36px; font-weight: 600; letter-spacing: -0.003em; margin-bottom: 40px; color: #1d1d1f; }
+
+        /* Header */
+        header { background: rgba(255,255,255,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(210,210,215,0.5); position: sticky; top: 0; z-index: 100; padding: 10px 0; }
+        .header-container { max-width: 1000px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: 600; color: #1d1d1f; text-decoration: none; }
+        .nav { display: flex; gap: 30px; }
+        .nav a { color: #1d1d1f; text-decoration: none; font-size: 14px; font-weight: 400; opacity: 0.9; transition: opacity 0.2s; }
+        .nav a:hover { opacity: 1; color: #06c; }
+
+        /* Language */
+        .lang-selector { position: relative; display: inline-block; }
+        .lang-btn { background: transparent; border: none; color: #1d1d1f; font-size: 14px; padding: 6px 10px; cursor: pointer; display: flex; align-items: center; gap: 6px; border-radius: 18px; transition: background 0.2s; }
+        .lang-btn:hover { background: #f5f5f7; }
+        .lang-dropdown { position: absolute; top: 100%; right: 0; background: white; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 8px 0; min-width: 140px; display: none; flex-direction: column; z-index: 10; border: 1px solid #f5f5f7; }
+        .lang-dropdown.show { display: flex; }
+        .lang-dropdown a { color: #1d1d1f; padding: 10px 20px; text-decoration: none; font-size: 14px; transition: 0.2s; }
+        .lang-dropdown a:hover { background: #f5f5f7; color: #06c; }
+
+        /* Hero */
+        .hero-center { text-align: center; margin-bottom: 30px; }
+        .hero-center h1 { font-size: 42px; font-weight: 600; letter-spacing: -0.002em; line-height: 1.2; margin-bottom: 15px; color: #1d1d1f; }
+        .hero-tagline { font-size: 20px; color: #515154; margin-bottom: 30px; font-weight: 400; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        /* Swiper */
+        .swiper { width: 100%; max-width: 700px; margin: 0 auto; padding: 10px 0 20px 0; overflow: hidden; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; transition: all 0.3s; width: 160px; }
+        .photo-card-169 { width: 100%; aspect-ratio: 9 / 16; border-radius: 8px; overflow: hidden; background-size: cover; background-position: center; border: none; box-shadow: none; }
+        .swiper-button-next, .swiper-button-prev { color: #06c; background: rgba(255,255,255,0.8); width: 28px; height: 28px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .swiper-button-next:after, .swiper-button-prev:after { font-size: 14px; }
+        .swiper-pagination-bullet { background: #06c; }
+
+        /* Case */
+        .case-section { background: rgba(255,255,255,0.5); border-radius: 30px; padding: 40px 30px; margin: 30px 0; }
+        .case-header { text-align: center; margin-bottom: 40px; }
+        .case-header h2 { font-size: 36px; margin-bottom: 15px; border-left: none; padding-left: 0; }
+        .case-header p { font-size: 18px; color: #515154; max-width: 800px; margin: 0 auto; white-space: pre-line; }
+        .case-stats { display: flex; justify-content: space-around; gap: 30px; flex-wrap: wrap; margin-top: 30px; }
+        .stat-block { flex: 1 1 250px; text-align: center; }
+        .stat-block h3 { font-size: 28px; font-weight: 600; margin-bottom: 20px; color: #1d1d1f; }
+        .stat-images { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .stat-image { width: calc(50% - 10px); min-width: 120px; aspect-ratio: 9 / 16; border-radius: 20px; background-size: cover; background-position: center; background-color: transparent; box-shadow: none; transition: all 0.3s; border: none; }
+        .stat-image:hover { transform: scale(1.02); }
+        .case-result { margin-top: 50px; text-align: center; }
+        .result-text { font-size: 20px; color: #1d1d1f; max-width: 800px; margin: 0 auto 40px auto; background: rgba(255,255,255,0.3); padding: 25px; border-radius: 30px; backdrop-filter: blur(5px); }
+        .result-photos { display: flex; gap: 25px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+        .result-left { flex: 1 1 250px; max-width: 250px; }
+        .result-right { display: flex; flex-direction: column; gap: 15px; flex: 1 1 180px; max-width: 180px; }
+        .photo-169 { aspect-ratio: 9 / 16; width: 100%; border-radius: 20px; background-size: cover; background-position: center; background-color: transparent; box-shadow: none; border: none; }
+        .photo-34 { aspect-ratio: 3 / 4; width: 100%; border-radius: 16px; background-size: cover; background-position: center; background-color: transparent; box-shadow: none; border: none; }
+        .video-34 { aspect-ratio: 3 / 4; width: 100%; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: none; }
+        .video-34 video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Pains */
+        .pains-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
+        .pain-card { background: #f5f5f7; border-radius: 20px; padding: 25px 15px; text-align: center; transition: all 0.3s; display: flex; flex-direction: column; border: none; }
+        .pain-card i { font-size: 36px; color: #1d1d1f; margin-bottom: 12px; }
+        .pain-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #1d1d1f; }
+        .pain-card p { color: #515154; font-size: 13px; line-height: 1.4; flex-grow: 1; }
+        .pain-card:hover { background: #e8e8ed; }
+        .cta-text { text-align: center; font-size: 24px; font-weight: 500; color: #1d1d1f; background: rgba(255,255,255,0.3); padding: 25px; border-radius: 50px; backdrop-filter: blur(5px); max-width: 700px; margin: 0 auto; }
+
+        /* Solutions */
+        .solutions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-top: 30px; }
+        .solution-card { background: white; border-radius: 28px; padding: 25px; display: flex; align-items: flex-start; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 5px solid #06c; transition: transform 0.3s; }
+        .solution-card:hover { transform: translateY(-5px); }
+        .solution-number { font-size: 48px; font-weight: 700; color: #06c; opacity: 0.3; line-height: 1; min-width: 50px; text-align: center; }
+        .solution-content h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; color: #1d1d1f; }
+        .solution-content p { font-size: 15px; color: #515154; line-height: 1.5; }
+
+        /* Pricing */
+        .pricing-header { text-align: center; margin-bottom: 30px; }
+        .pricing-toggle { display: inline-flex; background: #f5f5f7; border-radius: 50px; padding: 4px; margin-bottom: 40px; }
+        .toggle-option { padding: 10px 30px; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; background: transparent; color: #1d1d1f; }
+        .toggle-option.active { background: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: #06c; }
+        .pricing-grid { display: grid; gap: 15px; margin-top: 15px; }
+        .pricing-grid.month { grid-template-columns: repeat(4, 1fr); }
+        .pricing-grid.year { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+        .pricing-card { background: #ffffff; border-radius: 30px; padding: 25px 15px; transition: all 0.3s; box-shadow: 0 15px 30px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column; position: relative; height: 100%; width: 100%; min-width: 0; }
+        .pricing-card.popular { border: 2px solid #06c; transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,102,204,0.12); }
+        .popular-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #06c; color: white; padding: 5px 16px; border-radius: 30px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .pricing-card-header { margin-bottom: 15px; }
+        .pricing-name { font-size: 20px; font-weight: 600; margin-bottom: 8px; color: #1d1d1f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pricing-price-block { margin-bottom: 12px; }
+        .pricing-price { font-size: 30px; font-weight: 700; color: #1d1d1f; line-height: 1.2; }
+        .pricing-price small { font-size: 12px; font-weight: 400; color: #86868b; }
+        .pricing-old-price { font-size: 16px; color: #999; text-decoration: line-through; margin-right: 6px; font-weight: 400; }
+        .pricing-currencies { font-size: 12px; color: #86868b; margin-top: 6px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 8px; }
+        .pricing-features { list-style: none; margin: 15px 0; flex-grow: 1; padding: 0; }
+        .pricing-features li { margin: 10px 0; display: flex; align-items: center; gap: 8px; color: #1d1d1f; font-size: 13px; }
+        .pricing-features i { color: #06c; font-size: 14px; min-width: 16px; }
+        .pricing-note { color: #86868b; font-size: 12px; border-top: 1px solid #e8e8ed; padding-top: 12px; margin: 12px 0; }
+        .pricing-btn { background: #06c; color: white; border: none; border-radius: 50px; padding: 12px 16px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; text-align: center; text-decoration: none; display: inline-block; margin-top: auto; }
+        .pricing-btn:hover { background: #0077ed; transform: scale(1.02); }
+        .pricing-btn.outline { background: transparent; border: 2px solid #06c; color: #06c; }
+        .pricing-btn.outline:hover { background: rgba(0,102,204,0.05); }
+
+        /* Portfolio */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; }
+        .portfolio-item { border-radius: 16px; overflow: hidden; transition: transform 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); background-size: cover; background-position: center; background-color: #e8e8ed; border: none; cursor: pointer; }
+        .portfolio-item.portrait { aspect-ratio: 9 / 16; }
+        .portfolio-item.custom-1614 { aspect-ratio: 16 / 14; }
+        .portfolio-item.span-2 { grid-column: span 2; }
+        .portfolio-item:hover { transform: scale(1.02); }
+        .portfolio-video { border-radius: 16px; overflow: hidden; background: #1a1a1a; box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: none; cursor: pointer; }
+        .portfolio-video video { width: 100%; height: 100%; object-fit: cover; display: block; background: #1a1a1a; }
+        .video-vertical { aspect-ratio: 9 / 16; grid-column: span 1; }
+        .video-horizontal { aspect-ratio: 16 / 9; grid-column: span 2; }
+        .video-1612 { aspect-ratio: 16 / 12; grid-column: span 2; }
+        .video-1615 { aspect-ratio: 16 / 15; grid-column: span 2; }
+        .shift-up { transform: translateY(-25px); z-index: 2; }
+
+        /* Contact */
+        .contact-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .contact-info { text-align: center; }
+        .contact-info p { margin: 15px 0; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; color: #1d1d1f; }
+        .contact-info i { color: #1d1d1f; font-size: 20px; }
+        .click-text { font-size: 22px; font-weight: 500; color: #1d1d1f; margin-bottom: 8px; }
+        .telegram-btn { background: #06c; color: white; border: none; border-radius: 50px; padding: 15px 35px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .telegram-btn:hover { background: #0077ed; transform: scale(1.02); }
+
+        /* Footer */
+        footer { background: rgba(255,255,255,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 30px 0; border-top: 1px solid rgba(210,210,215,0.5); text-align: center; }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
+        .social-links a { color: #1d1d1f; font-size: 22px; transition: color 0.2s; }
+        .social-links a:hover { color: #06c; }
+        .footer-copy { color: #515154; font-size: 13px; }
+
+        /* Scroll reveal */
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+        .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+
+        /* Lightbox */
+        .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; cursor: pointer; }
+        .lightbox-overlay.active { display: flex; }
+        .lightbox-content { max-width: 95vw; max-height: 95vh; border-radius: 12px; object-fit: contain; }
+        .lightbox-content video { max-width: 95vw; max-height: 95vh; border-radius: 12px; }
+        .lightbox-close { position: fixed; top: 20px; right: 20px; color: white; font-size: 32px; cursor: pointer; z-index: 10000; background: rgba(0,0,0,0.5); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .pricing-grid.month { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid.year { grid-template-columns: repeat(2, 1fr); }
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+            .video-horizontal, .video-1612, .video-1615 { grid-column: span 2; }
+            h2 { font-size: 32px; }
+            .hero-center h1 { font-size: 38px; }
+            .pricing-name { white-space: normal; font-size: 18px; }
+        }
+        @media (max-width: 800px) {
+            .pricing-grid.month, .pricing-grid.year { grid-template-columns: 1fr; }
+            .pains-grid { grid-template-columns: repeat(2, 1fr); }
+            .pricing-card.popular { transform: scale(1); }
+            .swiper { max-width: 100%; }
+            .swiper-slide { width: 80px; }
+            .swiper-button-next, .swiper-button-prev { display: none; }
+        }
+        @media (max-width: 700px) {
+            .header-container { flex-direction: column; gap: 10px; }
+            .nav { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .hero-center h1 { font-size: 34px; }
+            .hero-tagline { font-size: 18px; margin-bottom: 25px; }
+            .case-section { padding: 30px 20px; }
+            .case-header h2 { font-size: 30px; }
+            .case-header p { font-size: 16px; }
+            .stat-images { flex-direction: column; align-items: center; }
+            .stat-image { width: 100%; max-width: 250px; }
+            .result-photos { flex-direction: column; gap: 15px; }
+            .result-left, .result-right { max-width: 100%; width: 100%; }
+            .photo-169, .photo-34, .video-34 { width: 100%; max-width: 350px; margin: 0 auto; }
+            .pains-grid { grid-template-columns: 1fr; }
+            .solutions-grid { grid-template-columns: 1fr; }
+            .solution-card { padding: 20px; }
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+            .portfolio-item.custom-1614, .portfolio-item.portrait { width: 100%; }
+            .portfolio-item.span-2 { grid-column: span 2; }
+            .video-horizontal, .video-1612, .video-1615 { grid-column: span 2; }
+            .shift-up { transform: none; }
+            .contact-container { flex-direction: column; gap: 25px; }
+            .contact-info p { font-size: 14px; }
+            .cta-text { font-size: 20px; padding: 18px; }
+            .pricing-toggle { width: 100%; }
+            .toggle-option { flex: 1; text-align: center; padding: 10px 15px; font-size: 14px; }
+            .pricing-name { font-size: 18px; }
+        }
+        @media (max-width: 400px) {
+            .hero-center h1 { font-size: 28px; }
+            .hero-tagline { font-size: 16px; }
+            .pricing-name { font-size: 16px; }
+            .pricing-price { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-fixed"></div>
+    <div class="bg-overlay"></div>
+    <header>
+        <div class="header-container">
+            <div class="logo">SHIKOVA</div>
+            <nav class="nav">
+                <a href="#home">Главная</a>
+                <a href="#case">Кейс</a>
+                <a href="#pains">Проблемы</a>
+                <a href="#solutions">Решения</a>
+                <a href="#packages">Услуги</a>
+                <a href="#portfolio">Портфолио</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+            <div class="lang-selector" id="langSelector">
+                <button class="lang-btn" id="langBtn"><span id="currentLang">RU</span> <i class="fas fa-chevron-down"></i></button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <a href="#" data-lang="ru">Русский</a>
+                    <a href="#" data-lang="en">English</a>
+                    <a href="#" data-lang="fr">Français</a>
+                    <a href="#" data-lang="de">Deutsch</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. ГЛАВНАЯ -->
+        <section id="home" style="padding-top: 20px; padding-bottom: 40px;">
+            <div class="container">
+                <div class="hero-center scroll-reveal">
+                    <h1>Меня зовут Евгения,<br>я AI-креатор и промпт-инженер.</h1>
+                    <div class="hero-tagline">Увеличу Вашу прибыль и узнаваемость</div>
+                </div>
+                <div class="swiper scroll-reveal">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/bNQ3cW0w/hf_20260303_105240_ae9d74c1_d633_4505_b31b_b1632e539297.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/k5w2HBQ1/hf-20260303-132349-85bd8add-0889-4758-9d62-13d1127affa8.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/mDhS29fQ/hf_20260210_170941_88a52172_7bc6_4459_8c4a_2ca07b7455de.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/WbJ6GKRk/hf-20260305-110026-f6cf7ee1-2790-4eef-83de-91e304275eec.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/d3cDkrwk/hf-20260303-132025-7111227a-b3eb-46ea-ba51-2c126fdc5ce7.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/VvLYxRR5/hf-20260302-210755-7d3d142c-d888-4b7c-961e-ccea8a369ef5.jpg');"></div></div>
+                        <div class="swiper-slide"><div class="photo-card-169" style="background-image: url('https://i.postimg.cc/rFPhNWYq/hf-20260305-114046-9b941100-1fb3-4ba2-8fe8-6c72f8558220.jpg');"></div></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. КЕЙС -->
+        <section id="case">
+            <div class="container">
+                <div class="case-section scroll-reveal">
+                    <div class="case-header">
+                        <h2>Shop "SVZH"</h2>
+                        <p>ДО- стоимость переписки свыше 1$, отсутствие продаж, клиенты не хотят возвращаться так как креативы не цепляют.
+После- Стоимость переписки меньше 0.30$, увеличение подписчиков не только за счёт рекламы, но и привлечение органического трафика за счёт качественных креативов</p>
+                    </div>
+                    <div class="case-stats">
+                        <div class="stat-block">
+                            <h3>До</h3>
+                            <div class="stat-images">
+                                <div class="stat-image" style="background-image: url('https://i.postimg.cc/2yyDFH4t/hf-20260220-093114-a652c70d-57e3-46a2-a784-bffeec1dfa06-removebg-preview.png');"></div>
+                                <div class="stat-image" style="background-image: url('https://i.postimg.cc/15LQwr4t/hf-20260220-094145-fe80be43-4012-4c43-b084-c4be3d6334c4-removebg-preview.png');"></div>
+                            </div>
+                        </div>
+                        <div class="stat-block">
+                            <h3>После</h3>
+                            <div class="stat-images">
+                                <div class="stat-image" style="background-image: url('https://i.postimg.cc/HkVtDbt7/hf-20260220-081310-23ccede0-5119-4929-97fe-f2d967d185e4-removebg-preview.png');"></div>
+                                <div class="stat-image" style="background-image: url('https://i.postimg.cc/0QkNJ0jT/hf-20260220-093826-ecb267ab-0ce0-4952-89a6-c4649b3d2464-removebg-preview.png');"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-result">
+                        <div class="result-text">Таким образом за одну неделю выручка выросла с 749 BYN до 3330 BYN, а ДРР упал с 60,02 до 11,23, что свидетельствует о понижении рекламных расходов и увеличении выручки.</div>
+                        <div class="result-photos">
+                            <div class="result-left">
+                                <div class="photo-169" style="background-image: url('https://i.postimg.cc/NF8CDn1c/hf-20260220-094731-fccbf2d6-c39c-4b45-8640-71ae316b8d39-removebg-preview.png');"></div>
+                            </div>
+                            <div class="result-right">
+                                <div class="video-34"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/tbdwTIL.mp4" type="video/mp4"></video></div>
+                                <div class="video-34"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/1gbVDzy.mp4" type="video/mp4"></video></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ПРОБЛЕМЫ -->
+        <section id="pains">
+            <div class="container">
+                <h2>Если Вам знакомы эти ситуации</h2>
+                <div class="pains-grid">
+                    <div class="pain-card scroll-reveal"><i class="fas fa-clock"></i><h3 id="pain1-title">Нет времени на контент</h3><p id="pain1-desc">Вы заняты бизнесом, а посты и stories требуют ежедневного внимания.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-arrow-trend-down"></i><h3 id="pain2-title">Охваты не растут</h3><p id="pain2-desc">Алгоритмы меняются, а вовлечённость уже не та. Нужен свежий подход.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-image"></i><h3 id="pain3-title">Нет уникальных визуалов</h3><p id="pain3-desc">Стоковые фото не выделяют вас среди конкурентов.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-bullseye"></i><h3 id="pain4-title">Таргет не приносит продаж</h3><p id="pain4-desc">Реклама запущена, а заказов нет. Значит, контент не цепляет.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-dollar-sign"></i><h3 id="pain5-title">Экономия на SMM-менеджере</h3><p id="pain5-desc">Около 700$ в месяц — вы не платите зарплату и налоги.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-camera"></i><h3 id="pain6-title">Экономия на производстве</h3><p id="pain6-desc">Студии, фотографы, модели — до 700$ в месяц.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-search"></i><h3 id="pain7-title">Без поиска подрядчиков</h3><p id="pain7-desc">Не нужно искать и проверять новых специалистов.</p></div>
+                    <div class="pain-card scroll-reveal"><i class="fas fa-tasks"></i><h3 id="pain8-title">Нет контроля</h3><p id="pain8-desc">Не тратьте время на управление процессами и лицами.</p></div>
+                </div>
+                <div class="cta-text scroll-reveal">тогда оставляй заявку на пробный пост для своего бизнеса</div>
+            </div>
+        </section>
+
+        <!-- 4. РЕШЕНИЯ -->
+        <section id="solutions">
+            <div class="container">
+                <h2>Как я решу Ваши проблемы?</h2>
+                <div class="solutions-grid">
+                    <div class="solution-card scroll-reveal"><div class="solution-number">1</div><div class="solution-content"><h3>Сокращу Ваши расходы минимум в 2 раза</h3><p>Вместо затрат в размере 1000$, Вы потратите максимум 500$.</p></div></div>
+                    <div class="solution-card scroll-reveal"><div class="solution-number">2</div><div class="solution-content"><h3>Высвобожу Ваше время</h3><p>Для более важных задач или расширения Вашего бизнеса.</p></div></div>
+                    <div class="solution-card scroll-reveal"><div class="solution-number">3</div><div class="solution-content"><h3>Снижу эмоциональную и физическую нагрузку</h3><p>Вместо управления командой будет один командир.</p></div></div>
+                    <div class="solution-card scroll-reveal"><div class="solution-number">4</div><div class="solution-content"><h3>Повышу узнаваемость и уникальность бренда</h3><p>Что повысит Вашу прибыль.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ПАКЕТЫ УСЛУГ -->
+        <section id="packages">
+            <div class="container">
+                <div class="pricing-header"><h2>Пакеты услуг</h2></div>
+                <div style="display: flex; justify-content: center;">
+                    <div class="pricing-toggle" id="pricingToggle">
+                        <button class="toggle-option active" id="monthlyBtn">Месяц</button>
+                        <button class="toggle-option" id="yearlyBtn">6 месяцев</button>
+                    </div>
+                </div>
+                <div class="pricing-grid month" id="packagesContainer"></div>
+            </div>
+        </section>
+
+        <!-- 6. ПОРТФОЛИО -->
+        <section id="portfolio">
+            <div class="container">
+                <h2>Портфолио</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item custom-1614 span-2 scroll-reveal" style="background-image: url('https://i.postimg.cc/wMxGhPWb/hf-20260302-204932-134f3d74-0834-4481-9d94-0fdb67ff4d84.jpg');"></div>
+                    <div class="portfolio-item portrait scroll-reveal" style="background-image: url('https://i.postimg.cc/Hs13mx72/hf-20260302-135743-693552e4-cb75-4d32-8f8a-35e1570fc03c.png');"></div>
+                    <div class="portfolio-item portrait scroll-reveal" style="background-image: url('https://i.postimg.cc/Hn86W8pW/hf-20260302-141653-7337c5d1-6c54-4ab7-a78c-8989ec6c4600.png');"></div>
+                    <div class="portfolio-item portrait scroll-reveal" style="background-image: url('https://i.postimg.cc/sXhnsZjc/hf-20260223-201121-1d92fc39-2d3a-444f-8061-a3da73974211.png');"></div>
+                    <div class="portfolio-item portrait scroll-reveal" style="background-image: url('https://i.postimg.cc/cCtYN3QN/hf-20260302-145106-5ebbf57f-5499-47a0-876e-6a1b9083ffc4.png');"></div>
+                    <div class="portfolio-item custom-1614 span-2 scroll-reveal" style="background-image: url('https://i.postimg.cc/ZYjgTbRj/hf-20260302-204845-52f5c422-30e6-4ba1-b991-5d806c04691e.png');"></div>
+                </div>
+                <h3 style="margin: 50px 0 25px; font-size: 28px; font-weight: 600;">Видео-примеры</h3>
+                <div class="portfolio-grid">
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/0CoxhT6.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/LlvRxT2.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-1615 scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/IZjmxKJ.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-horizontal scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/krYGiuY.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-horizontal shift-up scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/MGuYgyX.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/Hu4tYMp.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/WtjMd7Y.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/TKGY2bA.mp4" type="video/mp4"></video></div>
+                    <div class="portfolio-video video-vertical scroll-reveal"><video autoplay muted loop playsinline preload="auto" data-autoplay><source src="https://imgur.com/R25SYlu.mp4" type="video/mp4"></video></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. КОНТАКТЫ -->
+        <section id="contact">
+            <div class="container">
+                <h2>Свяжитесь со мной</h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> evgeniasikova2@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +375447153369</p>
+                        <p><i class="fab fa-telegram"></i> @shikovaproai</p>
+                        <p style="color: #515154;">Напишите мне в удобный мессенджер — отвечу в течение часа</p>
+                    </div>
+                    <div class="click-text">Кликай сюда</div>
+                    <a href="https://t.me/shikovaproai" target="_blank" class="telegram-btn">
+                        <i class="fab fa-telegram"></i> Получить консультацию по желаемому пакету
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <div id="lightboxContent"></div>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://t.me/shikovaproai" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fas fa-image"></i></a>
+        </div>
+        <div class="footer-copy">© 2025 SHIKOVA. AI‑креатор</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // --- Swiper: бесконечная карусель с автопрокруткой ---
+        const swiper = new Swiper('.swiper', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 3,
+            initialSlide: 3,
+            loop: true,
+            autoplay: { delay: 2500, disableOnInteraction: false },
+            coverflowEffect: { rotate: 30, stretch: 0, depth: 150, modifier: 1, slideShadows: true },
+            spaceBetween: 15,
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            breakpoints: {
+                0: { slidesPerView: 3, spaceBetween: 10 },
+                700: { slidesPerView: 3, spaceBetween: 15 }
+            }
+        });
+
+        // --- Мультиязычность ---
+        const translations = {
+            ru: { 'pain1-title': 'Нет времени на контент', 'pain1-desc': 'Вы заняты бизнесом, а посты и stories требуют ежедневного внимания.', 'pain2-title': 'Охваты не растут', 'pain2-desc': 'Алгоритмы меняются, а вовлечённость уже не та. Нужен свежий подход.', 'pain3-title': 'Нет уникальных визуалов', 'pain3-desc': 'Стоковые фото не выделяют вас среди конкурентов.', 'pain4-title': 'Таргет не приносит продаж', 'pain4-desc': 'Реклама запущена, а заказов нет. Значит, контент не цепляет.', 'pain5-title': 'Экономия на SMM-менеджере', 'pain5-desc': 'Около 700$ в месяц — вы не платите зарплату и налоги.', 'pain6-title': 'Экономия на производстве', 'pain6-desc': 'Студии, фотографы, модели — до 700$ в месяц.', 'pain7-title': 'Без поиска подрядчиков', 'pain7-desc': 'Не нужно искать и проверять новых специалистов.', 'pain8-title': 'Нет контроля', 'pain8-desc': 'Не тратьте время на управление процессами и лицами.' },
+            en: { 'pain1-title': 'No time for content', 'pain1-desc': 'You are busy with business, while posts and stories demand daily attention.', 'pain2-title': 'Reach is not growing', 'pain2-desc': 'Algorithms change, engagement is low. Need a fresh approach.', 'pain3-title': 'No unique visuals', 'pain3-desc': "Stock photos don't set you apart from competitors.", 'pain4-title': "Target ads don't sell", 'pain4-desc': "Ads are running but no orders. Means content doesn't engage.", 'pain5-title': 'Save on SMM manager', 'pain5-desc': 'About $700 per month — no salary, no taxes.', 'pain6-title': 'Save on production', 'pain6-desc': 'Studios, photographers, models — up to $700 per month.', 'pain7-title': 'No contractor search', 'pain7-desc': 'No need to find and vet new specialists.', 'pain8-title': 'No micromanagement', 'pain8-desc': "Don't waste time controlling processes and people." },
+            fr: { 'pain1-title': 'Pas de temps pour le contenu', 'pain1-desc': 'Vous êtes occupé par votre entreprise, les posts et stories demandent une attention quotidienne.', 'pain2-title': 'La portée ne croît pas', 'pain2-desc': "Les algorithmes changent, l'engagement n'est plus le même. Besoin d'une nouvelle approche.", 'pain3-title': 'Pas de visuels uniques', 'pain3-desc': 'Les photos stock ne vous distinguent pas des concurrents.', 'pain4-title': 'Le ciblage ne vend pas', 'pain4-desc': "Les pubs tournent mais pas de commandes. Le contenu n'accroche pas.", 'pain5-title': 'Économisez sur SMM', 'pain5-desc': 'Environ 700 $ par mois — pas de salaire, pas de charges.', 'pain6-title': 'Économisez sur la production', 'pain6-desc': "Studios, photographes, modèles — jusqu'à 700 $ par mois.", 'pain7-title': 'Pas de recherche de prestataires', 'pain7-desc': 'Inutile de chercher et vérifier de nouveaux spécialistes.', 'pain8-title': 'Pas de micro-gestion', 'pain8-desc': 'Ne perdez pas de temps à contrôler les processus et les personnes.' },
+            de: { 'pain1-title': 'Keine Zeit für Content', 'pain1-desc': 'Sie sind mit Ihrem Geschäft beschäftigt, während Beiträge und Stories tägliche Aufmerksamkeit erfordern.', 'pain2-title': 'Reichweite wächst nicht', 'pain2-desc': 'Algorithmen ändern sich, Engagement lässt nach. Neuer Ansatz nötig.', 'pain3-title': 'Keine einzigartigen Visuals', 'pain3-desc': 'Stockfotos heben Sie nicht von Mitbewerbern ab.', 'pain4-title': 'Targeting bringt keine Verkäufe', 'pain4-desc': 'Anzeigen laufen, aber keine Bestellungen. Der Inhalt fesselt nicht.', 'pain5-title': 'Sparen Sie beim SMM-Manager', 'pain5-desc': 'Etwa 700 $ pro Monat – kein Gehalt, keine Steuern.', 'pain6-title': 'Sparen Sie bei der Produktion', 'pain6-desc': 'Studios, Fotografen, Models – bis zu 700 $ pro Monat.', 'pain7-title': 'Keine Auftragnehmersuche', 'pain7-desc': 'Keine Suche und Prüfung neuer Spezialisten nötig.', 'pain8-title': 'Keine Mikroverwaltung', 'pain8-desc': 'Verschwenden Sie keine Zeit mit der Steuerung von Prozessen und Personen.' }
+        };
+
+        function setLanguage(lang) {
+            document.getElementById('currentLang').innerText = lang.toUpperCase();
+            const t = translations[lang];
+            if (!t) return;
+            for (let i = 1; i <= 8; i++) {
+                const titleEl = document.getElementById('pain' + i + '-title');
+                const descEl = document.getElementById('pain' + i + '-desc');
+                if (titleEl) titleEl.innerText = t['pain' + i + '-title'];
+                if (descEl) descEl.innerText = t['pain' + i + '-desc'];
+            }
+        }
+
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        langBtn.addEventListener('click', function(e) { e.stopPropagation(); langDropdown.classList.toggle('show'); });
+        document.addEventListener('click', function() { langDropdown.classList.remove('show'); });
+        langDropdown.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                setLanguage(link.getAttribute('data-lang'));
+                langDropdown.classList.remove('show');
+            });
+        });
+        setLanguage('ru');
+
+        // --- Пакеты ---
+        const monthlyBtn = document.getElementById('monthlyBtn');
+        const yearlyBtn = document.getElementById('yearlyBtn');
+        const packagesContainer = document.getElementById('packagesContainer');
+
+        function renderPackages(period) {
+            if (period === 'month') {
+                packagesContainer.className = 'pricing-grid month';
+                packagesContainer.innerHTML = '<div class="pricing-card"><div class="pricing-card-header"><div class="pricing-name">🔑 Пробный</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">35$</span> 19$ <small>/разово</small></div></div><div class="pricing-currencies">54 BYN / 1 449 RUB / 9 500 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 5-6 фото товара/модели</li><li><i class="fas fa-check"></i> Промо-ролик 30 сек</li><li><i class="fas fa-check"></i> Готовность 24 часа</li></ul><div class="pricing-note"><p>Скидка действует 24ч</p></div><a href="#contact" class="pricing-btn">Подробнее</a></div><div class="pricing-card"><div class="pricing-card-header"><div class="pricing-name">📦 Стартовый</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">200$</span> 149$ <small>/mo</small></div></div><div class="pricing-currencies">420 BYN / 11 300 RUB / 74 600 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 8‑10 постов</li><li><i class="fas fa-check"></i> 15‑20 stories</li><li><i class="fas fa-check"></i> 4 Reels</li><li><i class="fas fa-check"></i> Контент план</li></ul><div class="pricing-note"><p>Срок: 5‑7 дней</p><p>план на месяц</p></div><a href="#contact" class="pricing-btn">Подробнее</a></div><div class="pricing-card popular"><div class="popular-badge">Популярный</div><div class="pricing-card-header"><div class="pricing-name">🚀 Продвинутый</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">300$</span> 249$ <small>/mo</small></div></div><div class="pricing-currencies">699 BYN / 18 900 RUB / 124 800 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 25‑30 постов</li><li><i class="fas fa-check"></i> 35‑40 stories</li><li><i class="fas fa-check"></i> 6‑8 Reels</li><li><i class="fas fa-check"></i> +3 эксклюзивные AI‑модели</li><li><i class="fas fa-check"></i> Контент план</li></ul><div class="pricing-note"><p>Срок: 7‑10 дней</p><p>план на месяц</p></div><a href="#contact" class="pricing-btn">Подробнее</a></div><div class="pricing-card"><div class="pricing-card-header"><div class="pricing-name">🎯 Максимальный</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">600$</span> 499$ <small>/mo</small></div></div><div class="pricing-currencies">1 399 BYN / 37 990 RUB / 240 990 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 40‑50 постов</li><li><i class="fas fa-check"></i> 40‑50 stories</li><li><i class="fas fa-check"></i> 5‑7 Reels</li><li><i class="fas fa-check"></i> Настройка таргета (Instagram/TT)</li><li><i class="fas fa-check"></i> Аналитика + отчёты</li><li><i class="fas fa-check"></i> Контент план</li></ul><div class="pricing-note"><p>Старт через 15 дней после анализа</p><p>план на месяц</p></div><a href="#contact" class="pricing-btn">Подробнее</a></div>';
+            } else {
+                packagesContainer.className = 'pricing-grid year';
+                packagesContainer.innerHTML = '<div class="pricing-card"><div class="pricing-card-header"><div class="pricing-name">📦 Стартовый</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">149$</span> 119$ <small>/мес</small></div></div><div class="pricing-currencies">399 BYN / 8 990 RUB / 58 990 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 58‑70 постов</li><li><i class="fas fa-check"></i> 100‑130 stories</li><li><i class="fas fa-check"></i> 34 Reels</li><li><i class="fas fa-check"></i> + создание AI-модели под Вас</li><li><i class="fas fa-check"></i> Контент план на полгода</li></ul><div class="pricing-note"><p>Срок: на 6 месяцев</p></div><a href="#contact" class="pricing-btn outline">Подробнее</a></div><div class="pricing-card popular"><div class="popular-badge">Популярный</div><div class="pricing-card-header"><div class="pricing-name">🚀 Продвинутый</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">249$</span> 199$ <small>/мес</small></div></div><div class="pricing-currencies">559 BYN / 14 990 RUB / 99 990 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 165‑195 постов</li><li><i class="fas fa-check"></i> 225‑255 stories</li><li><i class="fas fa-check"></i> 51‑63 Reels</li><li><i class="fas fa-check"></i> +3 AI-модели</li><li><i class="fas fa-check"></i> 3 месяца маркетинговой составляющей</li></ul><div class="pricing-note"><p>Срок: на 6 месяцев</p></div><a href="#contact" class="pricing-btn outline">Подробнее</a></div><div class="pricing-card"><div class="pricing-card-header"><div class="pricing-name">🎯 Максимальный</div><div class="pricing-price-block"><div class="pricing-price"><span class="pricing-old-price">499$</span> 399$ <small>/мес</small></div></div><div class="pricing-currencies">1 099 BYN / 29 990 RUB / 199 990 KZT</div></div><ul class="pricing-features"><li><i class="fas fa-check"></i> 260‑320 постов</li><li><i class="fas fa-check"></i> 260‑320 stories</li><li><i class="fas fa-check"></i> 50‑62 Reels</li><li><i class="fas fa-check"></i> +20 AI-моделей</li><li><i class="fas fa-check"></i> Обучение генерации в нейросетях</li><li><i class="fas fa-check"></i> Таргет, аналитика, контент-план</li></ul><div class="pricing-note"><p>Срок: на 6 месяцев</p></div><a href="#contact" class="pricing-btn outline">Подробнее</a></div>';
+            }
+        }
+        renderPackages('month');
+        monthlyBtn.addEventListener('click', function() { monthlyBtn.classList.add('active'); yearlyBtn.classList.remove('active'); renderPackages('month'); });
+        yearlyBtn.addEventListener('click', function() { yearlyBtn.classList.add('active'); monthlyBtn.classList.remove('active'); renderPackages('year'); });
+
+        // --- Scroll reveal ---
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) { if (entry.isIntersecting) entry.target.classList.add('revealed'); });
+        }, { threshold: 0.1 });
+        revealElements.forEach(function(el) { revealObserver.observe(el); });
+
+        // --- Video autoplay on scroll ---
+        const videos = document.querySelectorAll('video[data-autoplay]');
+        // Try to play all videos immediately on load
+        videos.forEach(function(v) { v.play().catch(function(){}); });
+        const videoObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { entry.target.play().catch(function(){}); }
+                else { entry.target.pause(); }
+            });
+        }, { threshold: 0.25 });
+        videos.forEach(function(v) { videoObserver.observe(v); });
+
+        // --- Lightbox for portfolio ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxContent = document.getElementById('lightboxContent');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        document.querySelectorAll('.portfolio-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const bgUrl = item.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                if (bgUrl) {
+                    lightboxContent.innerHTML = '<img class="lightbox-content" src="' + bgUrl + '" alt="Portfolio">';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        document.querySelectorAll('.portfolio-video').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const videoSrc = item.querySelector('source');
+                if (videoSrc) {
+                    lightboxContent.innerHTML = '<video class="lightbox-content" src="' + videoSrc.src + '" controls autoplay loop muted playsinline></video>';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightboxContent.innerHTML = '';
+            document.body.style.overflow = '';
+        }
+        lightboxClose.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+        lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+    </script>
+</body>
+</html>
